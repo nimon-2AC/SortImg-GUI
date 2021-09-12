@@ -1,31 +1,24 @@
-/**
- * This file will automatically be loaded by webpack and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.js` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
-
 import './index.css';
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+import { ContextBridgeApi } from "./preload/preload";
+
+/**
+ * contextBridge.exposeInMainWorldで設定したapiオブジェクトは
+ * グローバル変数windowに追加されます。
+ * keyはcontextBridge.exposeInMainWorldの第一引数です。
+ * このサンプルでは第一引数を"api"としています。
+ */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const api: ContextBridgeApi = window.api;
+
+const callback = (arg: string) => {
+  console.log(arg); // => メインプロセスからレンダラープロセスへのメッセージです。
+}
+api.onSendToRenderer(callback);
+
+const send = async () => {
+  const result = await api.sendToMainProcess();
+  console.log("result: ", result); // => result : メインプロセスからの返答です。
+};
+send();
