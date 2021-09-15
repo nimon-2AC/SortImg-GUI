@@ -1,4 +1,4 @@
-export enum IpcChannel {
-  TO_MAIN = "to-main",
-  TO_RENDERER = "to-renderer",
+export enum SelectFileChannel {
+  TO_MAIN = "select-dialog-to-main",
+  TO_RENDERER = "select-dialog-to-renderer",
 }

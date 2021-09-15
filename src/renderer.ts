@@ -1,24 +1,17 @@
 import './index.css';
 
-import { ContextBridgeApi } from "./preload/preload";
+const api = window.api;
 
-/**
- * contextBridge.exposeInMainWorldで設定したapiオブジェクトは
- * グローバル変数windowに追加されます。
- * keyはcontextBridge.exposeInMainWorldの第一引数です。
- * このサンプルでは第一引数を"api"としています。
- */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const api: ContextBridgeApi = window.api;
+document.getElementById('upload-image-files')?.addEventListener('click', async () => {
+  const files = await api.showOpenDialogSync({
+    filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
+    properties: ['openFile', 'multiSelections', 'showHiddenFiles'],
+  }) ?? [];
 
-const callback = (arg: string) => {
-  console.log(arg); // => メインプロセスからレンダラープロセスへのメッセージです。
-}
-api.onSendToRenderer(callback);
-
-const send = async () => {
-  const result = await api.sendToMainProcess();
-  console.log("result: ", result); // => result : メインプロセスからの返答です。
-};
-send();
+  for (const file of files) {
+    console.log('File(s) you dragged here: ', file);
+    const img = document.createElement('img');
+    img.src = file;
+    document.getElementById('image-view').appendChild(img);
+  }
+})
