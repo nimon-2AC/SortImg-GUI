@@ -1,15 +1,16 @@
 import { contextBridge, ipcRenderer, OpenDialogOptions } from "electron";
-import { SelectFileChannel } from "./IpcChannel";
+import { SelectFileChannel, WalkChannel } from "./IpcChannel";
 
-/**
- * APIクラス
- */
 export class ContextBridgeApi {
   public static readonly API_KEY = "api";
 
   public showOpenDialogSync = async (openDialogOptions?: OpenDialogOptions): Promise<string[]> => {
     return await ipcRenderer.invoke(SelectFileChannel.TO_MAIN, openDialogOptions);
   };
+
+  public walk = async (directory: string, extensions?: string[]): Promise<string[]> => {
+    return await ipcRenderer.invoke(WalkChannel.TO_MAIN, directory, extensions);
+  }
 }
 
 /**
