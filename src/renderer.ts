@@ -2,18 +2,25 @@ import './index.css';
 
 const api = window.api;
 
+const file_paths: Set<string> = new Set();
+
+const add_file = (file_path: string): void => {
+  if (file_paths.has(file_path)) return;
+  console.log('File(s) you dragged here: ', file_path);
+  const img = document.createElement('img');
+  img.src = file_path;
+  img.className = "selected-image"
+  document.getElementById('image-view').appendChild(img);
+  file_paths.add(file_path);
+}
+
 document.getElementById('upload-image-files')?.addEventListener('click', async () => {
   const files = await api.showOpenDialogSync({
     filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
     properties: ['openFile', 'multiSelections', 'showHiddenFiles'],
   }) ?? [];
 
-  for (const file of files) {
-    console.log('File(s) you dragged here: ', file);
-    const img = document.createElement('img');
-    img.src = file;
-    document.getElementById('image-view').appendChild(img);
-  }
+  files.forEach(file => add_file(file));
 })
 
 document.getElementById('upload-image-files-in-directories')?.addEventListener('click', async () => {
@@ -25,10 +32,5 @@ document.getElementById('upload-image-files-in-directories')?.addEventListener('
     return await api.walk(directory, ['jpg', 'png']);
   }))).flat();
 
-  for (const file of files) {
-    console.log('File(s) you dragged here: ', file);
-    const img = document.createElement('img');
-    img.src = file;
-    document.getElementById('image-view').appendChild(img);
-  }
+  files.forEach(file => add_file(file));
 })
