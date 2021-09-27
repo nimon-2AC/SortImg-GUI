@@ -9,10 +9,25 @@ const file_paths: Set<string> = new Set();
 const add_file = (file_path: string): void => {
   if (file_paths.has(file_path)) return;
   console.log('File(s) you dragged here: ', file_path);
-  const img = document.createElement('img');
-  img.src = file_path;
-  img.className = "selected-image"
-  document.getElementById('image-view').appendChild(img);
+
+  const tr = document.createElement('tr');
+  tr.className = "selected-image"
+
+  const path = document.createElement('td');
+  path.innerText = file_path;
+  tr.appendChild(path);
+
+  const cancel = document.createElement('td');
+  const cancelButton = document.createElement('button');
+  cancelButton.innerText = "✕";
+  cancelButton.addEventListener('click', () => {
+    tr.remove();
+    file_paths.delete(file_path);
+  })
+  cancel.appendChild(cancelButton)
+  tr.appendChild(cancel);
+
+  document.getElementById('selected-images').appendChild(tr);
   file_paths.add(file_path);
 }
 

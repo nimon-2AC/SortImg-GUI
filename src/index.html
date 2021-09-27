@@ -16,9 +16,20 @@
   <h1>💖 Hello World!</h1>
   <p>Welcome to your Electron application.</p>
 
-  <button id="upload-image-files" type="button">ファイルを選択してね〜</button>
-  <button id="upload-image-files-in-directories" type="button">ディレクトリを選択してね〜</button>
-  <div id="image-view"></div>
+  <button id="upload-image-files" type="button">ファイルを選択</button>
+  <button id="upload-image-files-in-directories" type="button">ディレクトリを選択</button>
+  <figure>
+    <table>
+      <thead>
+        <tr>
+          <td>選択した画像のパス</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody id="selected-images">
+      </tbody>
+    </table>
+  </figure>
 </body>
 
 </html>
