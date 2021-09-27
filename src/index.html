@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="img-src 'self' 'style-src-elem' data: blob:">
+  <meta http-equiv="Content-Security-Policy" content="
+    img-src 'self' blob:;
+    font-src 'self';
+    style-src 'self' 'unsafe-inline';
+  ">
 
   <title>Hello World!</title>
 </head>

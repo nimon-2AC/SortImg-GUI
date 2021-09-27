@@ -47,8 +47,8 @@ html[data-theme='dark'] {
 html[data-theme='sepia']{
 	--rem: 14pt;
 	--width: 48rem;
-	--font-p: 1em/1.6 'Libertinus Serif', Times, serif;
-	--font-h: 1em/1.6 'Libertinus Sans', Helvetica, sans;
+	/* --font-p: 1em/1.6 'Libertinus Serif', Times, serif;
+	--font-h: 1em/1.6 'Libertinus Sans', Helvetica, sans; */
 	--font-c: 85%/1.4 monospace;
 	--ornament: "∞ ∞ ∞";
 	/*--ornament: "❦ ❦ ❦"; "☙ ❧";*/
