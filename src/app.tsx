@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
-const file_paths: Set<string> = new Set();
+import { HashRouter, Switch, Route, Link, useHistory } from 'react-router-dom';
 
 const api = window.api;
+
+const file_paths: Set<string> = new Set();
 
 const add_file = (file_path: string): void => {
   if (file_paths.has(file_path)) return;
@@ -63,14 +64,20 @@ const DirectoriesSelectionButton = () => {
   )
 }
 
+const ToSortButton = () => {
+  return (
+      <button>
+        <Link to="/sort">選択を完了してソート</Link>
+      </button>
+  )
+}
+
 const Entrance = () => {
   return (
-    <div>
+    <>
       <FilesSelectionButton />
       <DirectoriesSelectionButton />
-      <button id="to-sort" type="button">
-        <a href="pages/sort.html">選択を完了してソート</a>
-      </button>
+      <ToSortButton />
       <figure>
         <table>
           <thead>
@@ -83,12 +90,36 @@ const Entrance = () => {
           </tbody>
         </table>
       </figure>
-    </div>
+    </>
   )
 }
 
+const SortPage = () => {
+  const history = useHistory();
+
+  return (
+    <>
+      <h1>hoge</h1>
+      <button onClick={() => history.goBack()}>選択をやり直す</button>
+    </>
+  );
+}
+
 const App = () => {
-  return <Entrance />;
+  return (
+    <HashRouter>
+      <>
+        <Switch>
+          <Route exact path='/'>
+            <Entrance />
+          </Route>
+          <Route path='/sort'>
+            <SortPage />
+          </Route>
+        </Switch>
+      </>
+    </HashRouter>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('react-content'));
