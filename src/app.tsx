@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import * as ReactDOM from 'react-dom';
-import { HashRouter, Switch, Route, Link, useHistory } from 'react-router-dom';
+import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 
-const api = window.api;
 
 const filePaths: Set<string> = new Set();
 
-const Entrance = () => {
+const Entrance: React.VFC = () => {
+  const api = window.api;
   const [selectedFileRows, setSelectedFileRows] = useState([]);
 
   const toTableRow = (filePath: string): JSX.Element => {
@@ -73,9 +73,10 @@ const Entrance = () => {
   }
 
   const ToSortButton = () => {
+    const history = useHistory();
     return (
-        <button>
-          <Link to="/sort">選択を完了してソート</Link>
+        <button onClick={() => history.push("/sort")}>
+          選択を完了してソート
         </button>
     )
   }
@@ -103,7 +104,7 @@ const Entrance = () => {
 }
 
 let answers: number[] = [];
-const ImageSort = () => {
+const ImageSort: React.VFC = () => {
   const [leftPath, setLeftPath] = useState("")
   const [rightPath, setRightPath] = useState("")
 
