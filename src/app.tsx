@@ -1,13 +1,24 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext, useReducer } from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
+import { StateType, ActionType, reducer } from './reducer';
 
 
-const filePaths: Set<string> = new Set();
+type ContextType = {
+  state: StateType;
+  dispatch: React.Dispatch<ActionType>;
+};
+
+const initialState: StateType = {
+  filePaths: new Set(),
+};
+const GlobalContext = createContext<ContextType>({} as ContextType);
+
 
 const Entrance: React.VFC = () => {
   const api = window.api;
+  const { state, dispatch } = useContext(GlobalContext);
   const [selectedFileRows, setSelectedFileRows] = useState([]);
 
   const toTableRow = (filePath: string): JSX.Element => {
@@ -16,7 +27,7 @@ const Entrance: React.VFC = () => {
         <td>{filePath}</td>
         <td><button onClick={() => {
           document.getElementById(filePath).remove();
-          filePaths.delete(filePath);
+          dispatch({ type: "deleteFilePath", filePath: filePath });
         }}>✕</button></td>
       </tr>
     )
@@ -26,12 +37,12 @@ const Entrance: React.VFC = () => {
     return Array.from(filePaths).map(filePath => toTableRow(filePath));
   }
 
-  useEffect(() => setSelectedFileRows(toTableRows(filePaths)), []);
+  useEffect(() => setSelectedFileRows(toTableRows(state.filePaths)), []);
 
   const updateFilePaths = (files: string[]): void => {
     files.forEach(file => {
-      if (filePaths.has(file)) return;
-      filePaths.add(file);
+      if (state.filePaths.has(file)) return;
+      dispatch({ type: "addFilePath", filePath: file });
       setSelectedFileRows(selectedFileRows => [
         ...selectedFileRows,
         toTableRow(file),
@@ -105,11 +116,12 @@ const Entrance: React.VFC = () => {
 
 let answers: number[] = [];
 const ImageSort: React.VFC = () => {
+  const { state, } = useContext(GlobalContext);
   const [leftPath, setLeftPath] = useState("")
   const [rightPath, setRightPath] = useState("")
 
 
-  const paths = Array.from(filePaths);
+  const paths = Array.from(state.filePaths);
   console.log(paths);
 
   const answer = (order: number) => {
@@ -175,20 +187,25 @@ const SortPage = () => {
   );
 }
 
+
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <HashRouter>
-      <>
-        <Switch>
-          <Route exact path='/'>
-            <Entrance />
-          </Route>
-          <Route path='/sort'>
-            <SortPage />
-          </Route>
-        </Switch>
-      </>
-    </HashRouter>
+    <GlobalContext.Provider value={{ state, dispatch }}>
+      <HashRouter>
+        <>
+          <Switch>
+            <Route exact path='/'>
+              <Entrance />
+            </Route>
+            <Route path='/sort'>
+              <SortPage />
+            </Route>
+          </Switch>
+        </>
+      </HashRouter>
+    </GlobalContext.Provider>
   );
 };
 
