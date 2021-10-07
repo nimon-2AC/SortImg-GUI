@@ -7,3 +7,8 @@ export enum WalkChannel {
   TO_MAIN = "walk-to-main",
   TO_RENDERER = "walk-to-renderer",
 }
+
+export enum SaveFileChannel {
+  TO_MAIN = "save-files-to-main",
+  TO_RENDERER = "save-files-to-renderer",
+}
