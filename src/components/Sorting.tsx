@@ -83,11 +83,11 @@ const ChoiceOrder: React.VFC = () => {
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <div style={{display: "flex", flexDirection: "column", flexBasis: "49%"}}>
             <img src={leftPath} alt={leftPath} />
-            <button id="leftButton" onClick={() => selectOrder(1)}>&gt;</button>
+            <button id="leftButton" onClick={() => selectOrder(-1)}>&gt;</button>
           </div>
           <div style={{display: "flex", flexDirection: "column", flexBasis: "49%"}}>
             <img src={rightPath} alt={rightPath} />
-            <button id="rightButton" onClick={() => selectOrder(-1)}>&lt;</button>
+            <button id="rightButton" onClick={() => selectOrder(1)}>&lt;</button>
           </div>
         </div>
         <button id="undoButton" onClick={() => undoOrder()}>一手戻る</button>
