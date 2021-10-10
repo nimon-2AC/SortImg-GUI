@@ -37,7 +37,7 @@ const ImageSelection: React.VFC = () => {
     });
   }
 
-  const FilesSelectionButton = () => {
+  const FilesSelectionButton: React.VFC<{style: React.CSSProperties}> = ({ style }) => {
     const selectFiles = async () => {
       const files = await api.showOpenDialogSync({
         filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
@@ -48,11 +48,11 @@ const ImageSelection: React.VFC = () => {
     }
 
     return (
-      <button type="button" onClick={selectFiles}>ファイルを選択</button>
+      <button type="button" onClick={selectFiles} style={style}>ファイルを選択</button>
     )
   }
 
-  const DirectoriesSelectionButton = () => {
+  const DirectoriesSelectionButton: React.VFC<{style: React.CSSProperties}> = ({ style }) => {
     const selectDirectories = async () => {
       const directories = await api.showOpenDialogSync({
         properties: ['openDirectory', 'multiSelections'],
@@ -66,7 +66,7 @@ const ImageSelection: React.VFC = () => {
     }
 
     return (
-      <button type="button" onClick={selectDirectories}>ディレクトリごと選択</button>
+      <button type="button" onClick={selectDirectories} style={style}>ディレクトリごと選択</button>
     )
   }
 
@@ -81,9 +81,13 @@ const ImageSelection: React.VFC = () => {
 
   return (
     <>
-      <FilesSelectionButton />
-      <DirectoriesSelectionButton />
-      <ToSortButton />
+      <div style={{display: "flex", flexDirection: "column"}}>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <FilesSelectionButton style={{flexBasis: "49%"}}/>
+          <DirectoriesSelectionButton style={{flexBasis: "49%"}}/>
+        </div>
+        <ToSortButton />
+      </div>
       <figure>
         <table>
           <thead>
