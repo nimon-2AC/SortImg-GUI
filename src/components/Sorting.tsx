@@ -68,7 +68,14 @@ const ChoiceOrder: React.VFC = () => {
       return;
     }
 
-    await api.saveFiles(paths, directory);
+    document.getElementById("saving").innerText = "画像保存中";
+    api.saveFiles(paths, directory)
+      .then(() => {
+        document.getElementById("saving").innerText = "画像成功";
+      })
+      .catch(() => {
+        document.getElementById("saving").innerText = "画像失敗";
+      });
   }
 
   useEffect(() => askNext(), [])
@@ -92,6 +99,7 @@ const ChoiceOrder: React.VFC = () => {
         </div>
         <button id="undoButton" onClick={() => undoOrder()}>一手戻る</button>
         <button id="saveSortedImagesButton" onClick={() => saveSortedImages(paths)}>ソートされた画像を保存</button>
+        <div id="saving"></div>
       </div>
     </>
   )

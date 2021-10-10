@@ -12,7 +12,7 @@ export class ContextBridgeApi {
     return await ipcRenderer.invoke(WalkChannel.TO_MAIN, directory, extensions);
   }
 
-  public saveFiles = async (files: string[], toDirectoryPath: string): Promise<void> => {
+  public saveFiles = async (files: string[], toDirectoryPath: string): Promise<void[]> => {
     return await ipcRenderer.invoke(SaveFileChannel.TO_MAIN, files, toDirectoryPath);
   }
 }
