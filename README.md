@@ -3,7 +3,7 @@
 ## インストール方法
 
 ```shell
-https://github.com/nimon-2AC/SortImg-GUI.git
+git clone https://github.com/nimon-2AC/SortImg-GUI.git
 cd SortImg-GUI
 npm run make
 ```
