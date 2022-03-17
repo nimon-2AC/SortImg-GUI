@@ -19,12 +19,14 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "name": "sortimg-gui"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "image_sorter2"
+            "name": "sortimg-gui"
           }
         },
         {
